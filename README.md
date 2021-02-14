@@ -1,5 +1,8 @@
 # SlaveElearning
 
+Slave E Learning is a client-side e-learning platform developed by angular, this application uses a REST API in nodeJS and Mysql database.
+#
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.2.
 
 ## Development server
