@@ -1,7 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { NbSidebarService, NbMenuService } from '@nebular/theme';
 import { LayoutService } from '../../../services/layout/layout.service';
 import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+
+import { 
+  NbMediaBreakpointsService,
+  NbSidebarService,
+  NbMenuService,
+  NbThemeService 
+
+} from '@nebular/theme';
+
 
 @Component({
   selector: 'app-header',
@@ -16,6 +25,9 @@ export class HeaderComponent implements OnInit {
     private sidebarService: NbSidebarService,
     private layoutService: LayoutService,
     private menuService: NbMenuService,
+    private themeService: NbThemeService,
+    private breakpointService: NbMediaBreakpointsService,
+
 
   ) { }
 
@@ -27,6 +39,17 @@ export class HeaderComponent implements OnInit {
   
 
   ngOnInit(): void {
+
+    
+    const { xl } = this.breakpointService.getBreakpointsMap();
+    this.themeService.onMediaQueryChange()
+      .pipe(
+        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
+        takeUntil(this.destroy$),
+      )
+      .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
+
+
   }
 
   toggleSidebar(): boolean {
@@ -39,6 +62,11 @@ export class HeaderComponent implements OnInit {
   navigateHome() {
     this.menuService.navigateHome();
     return false;
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }
