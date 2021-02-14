@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MENU_ITEMS } from './app-menu';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'SlaveElearning';
+  items = MENU_ITEMS;
 }
